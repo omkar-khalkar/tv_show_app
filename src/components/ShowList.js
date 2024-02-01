@@ -8,9 +8,7 @@ const ShowList = () => {
 
   const fetchShowDetails = async (showId) => {
     try {
-      const response = await axios.get(`https://api.tvmaze.com/shows/${showId}`);
-      const showDetails = response.data;
-      navigate(`/show/${showId}`, { state: { showDetails } });
+      navigate(`/show/${showId}`);
     } catch (error) {
       console.error('Error fetching show details', error);
     }
@@ -32,33 +30,29 @@ const ShowList = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-8 text-center">TV Shows</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {shows.map((show) => (
-          <div key={show.show.id} className="bg-white p-6 rounded-lg shadow-md">
-            <div className='flex justify-center align-items items-center'>
-            {show.show.image && show.show.image.medium && (
-              
-              <img
-                className="w-1/2   mb-4 rounded-md"
-                src={show.show.image.medium}
-                alt={show.show.name}
-              />
-            )}
+          <div key={show.show.id} className="bg-white rounded-lg overflow-hidden shadow-md">
+            <div className="relative">
+              {show.show.image && show.show.image.medium && (
+                <img
+                  src={show.show.image.medium}
+                  alt={show.show.name}
+                  className=" object-cover"
+                />
+              )}
             </div>
-            
 
-            <h3 className="text-xl font-semibold mb-2">{show.show.name}</h3>
-            <p
-              className="text-gray-600"
-              dangerouslySetInnerHTML={{ __html: show.show.summary }}
-            />
+            <div className="p-4">
+              <h3 className="text-xl font-semibold mb-2">{show.show.name}</h3>
 
-            <button
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline"
-              onClick={() => fetchShowDetails(show.show.id)}
-            >
-              View Details
-            </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => fetchShowDetails(show.show.id)}
+              >
+                View Details
+              </button>
+            </div>
           </div>
         ))}
       </div>
